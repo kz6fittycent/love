@@ -1,0 +1,51 @@
+name: love
+adopt-info: love
+summary: LÖVE is an awesome framework you can use to make 2D games in Lua
+description: |
+  LÖVE is an awesome framework you can use to make 2D games in Lua. It's free, 
+  open-source, and works on Windows, macOS, Linux, Android, and iOS.
+  
+license: Zlib
+base: core24
+grade: stable 
+confinement: strict
+compression: lzo
+
+website: https://github.com/love2d/love
+source-code: https://github.com/love2d/love
+contact: https://github.com/kz6fittycent/love
+issues: https://github.com/kz6fittycent/love/issues
+donation: https://www.patreon.com/kz6fittycent
+
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
+
+apps:
+  typhoonfighter:
+    command: usr/bin/love
+
+parts:
+  love:
+    source: https://github.com/love2d/love
+    source-type: git
+    plugin: autotools
+    autotools-configure-parameters:
+    - --disable-dependency-tracking
+    - --enable-gme
+
+
+    override-pull: |
+      craftctl default
+      craftctl set version="$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
+    
+    build-packages:
+      - liblua5.4-0
+      - liblua5.4-dev
+      - libgme-dev
+
+     
